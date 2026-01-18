@@ -1,47 +1,47 @@
-# use
+# 📌 Public Useful Resources & Notes
 
-Bro here i will keep my important things that i can share in public no problem and also so that i can get those stuff whenever i need them i dont need to go to my pc to get that stuffs.
+This document contains important things I can safely share publicly.
+I keep them here so I can access them anytime, from anywhere, without needing to go back to my PC.
 
-SO, here is the Python Books that i'm using to learn pyhton recently: https://drive.google.com/drive/folders/1h0lDBNndEClqhmZuei0oTZkYoCkFgXY7
+---
 
-The usefull Website Links: https://docs.google.com/spreadsheets/d/1tyXMiOC7uva652ibgUSiyT6jmHwRAcc59dBfC_1GhHc/edit?usp=sharing
+## 📚 Python Learning Resources
 
-My wikipidea Ranking - https://meta.wikimedia.org/wiki/Global_statistics/Rank_data/bnwiki
-today - Jan 16 - 2026 - 1447	NotNahid	20231104062559	153
+### 📖 Python Books (Google Drive)
+https://drive.google.com/drive/folders/1h0lDBNndEClqhmZuei0oTZkYoCkFgXY7
 
+---
 
+## 🌐 Useful Website Links
+https://docs.google.com/spreadsheets/d/1tyXMiOC7uva652ibgUSiyT6jmHwRAcc59dBfC_1GhHc/edit?usp=sharing
 
+---
+
+## 🧠 Wikipedia Contribution Ranking
+
+Project: Bengali Wikipedia  
+Date: Jan 16, 2026  
+
+- Rank: 1447  
+- Username: NotNahid  
+- User ID: 20231104062559  
+- Total Edits: 153  
+
+https://meta.wikimedia.org/wiki/Global_statistics/Rank_data/bnwiki
+
+---
+
+## 🖥️ Local Python HTTP Server (Windows)
+
+### Run server from D:\
+
+```bat
 @echo off
-:: Switch to the D drive (where your files are)
 cd /d D:\
-:: Run the server
 python -m http.server --bind 0.0.0.0 8080
 
 
-
-
+Run server from specific folder
 @echo off
-:: Switch to the D drive (where your files are)
 cd /d D:\The SUbtile meham
-:: Run the server
 python -m http.server --bind 0.0.0.0 8080
-
-
-Alternative: The "Startup Folder" Method (Easier)
-If you want the server to start only after you log in (and you want to see the black window so you know it's running), use this method instead.
-
-Press Win + R on your keyboard.
-
-Type shell:startup and press Enter. This opens the special Startup folder.
-
-Right-click your start_server.bat file -> Create Shortcut.
-
-Move that shortcut into the Startup folder you just opened.
-
-
-
-
-> Cloudflair Way:
-> If you haven't installed Cloudflare yet, run this in PowerShell (Run as Administrator):
-> winget install Cloudflare.cloudflared
-> cloudflared tunnel --url http://localhost:8080
