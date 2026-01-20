@@ -1,3 +1,10 @@
+So, now run this to install and host and run the cloudflair all at once: 
+
+
+
+
+
+
 
 @echo off
 :: Switch to the D drive (where your files are)
