@@ -1,0 +1,44 @@
+# --- 1. CLEANUP (Fixes "Address in use" or "Locked" errors) ---
+echo "🧹 Cleaning up old sessions..."
+pkill -f vnc
+rm -rf /tmp/.X1-lock /tmp/.X11-unix/X1 ~/.vnc/*.pid ~/.vnc/*.log 2>/dev/null
+
+# --- 2. INSTALL (Includes XFCE, VNC, and the critical dbus-x11 fix) ---
+echo "📦 Installing Desktop Environment (this takes ~2-3 mins)..."
+sudo apt-get update
+sudo apt-get install -y xfce4 xfce4-goodies tightvncserver dbus-x11 git python3-websockify
+
+# --- 3. SETUP VNC PASSWORD (Default: 'password') ---
+mkdir -p ~/.vnc
+echo "password" | vncpasswd -f > ~/.vnc/passwd
+chmod 600 ~/.vnc/passwd
+
+# --- 4. CONFIGURE STARTUP ---
+echo "⚙️ Configuring desktop startup..."
+mv ~/.vnc/xstartup ~/.vnc/xstartup.bak 2>/dev/null
+echo "#!/bin/bash" > ~/.vnc/xstartup
+echo "xrdb $HOME/.Xresources" >> ~/.vnc/xstartup
+echo "startxfce4 &" >> ~/.vnc/xstartup
+chmod +x ~/.vnc/xstartup
+
+# --- 5. START SERVER ---
+echo "🚀 Starting VNC Server..."
+vncserver :1 -geometry 1280x800 -depth 24
+
+# --- 6. START WEB PROXY ---
+if [ ! -d "noVNC" ]; then
+    echo "🌐 Downloading noVNC viewer..."
+    git clone https://github.com/novnc/noVNC.git
+fi
+
+echo "------------------------------------------------------------------"
+echo "✅ SUCCESS! Desktop is ready."
+echo "------------------------------------------------------------------"
+echo "👉 1. Click 'Web Preview' (eye icon top-right)"
+echo "👉 2. Select 'Change port' -> Enter: 6080"
+echo "👉 3. Click 'vnc.html' -> Click 'Connect'"
+echo "👉 4. Password: password"
+echo "------------------------------------------------------------------"
+
+# Start the proxy (this keeps the terminal running)
+./noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 6080
