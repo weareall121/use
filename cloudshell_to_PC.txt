@@ -1,0 +1,53 @@
+# 1. Install the missing dbus-x11 tool
+sudo apt install dbus-x11 -y
+
+# 2. Kill the old locked session
+vncserver -kill :1 2>/dev/null
+rm /tmp/.X1-lock /tmp/.X11-unix/X1 2>/dev/null
+
+# 3. Restart VNC
+vncserver :1 -geometry 1280x800 -depth 24
+
+# 4. Restart the Web Proxy
+./noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 6080
+
+
+
+
+# 1. Update and install XFCE (Lightweight GUI) and VNC Server
+sudo apt update && sudo apt install -y xfce4 xfce4-goodies tightvncserver git python3-websockify
+
+# 2. Set up the VNC password automatically (Default: 'password')
+# We do this to avoid the interactive prompt blocking the script.
+mkdir -p ~/.vnc
+echo "password" | vncpasswd -f > ~/.vnc/passwd
+chmod 600 ~/.vnc/passwd
+
+# 3. Configure the VNC server to use XFCE
+# We kill any existing instance first to ensure a clean start.
+vncserver -kill :1 2>/dev/null || true
+mv ~/.vnc/xstartup ~/.vnc/xstartup.bak 2>/dev/null || true
+echo "#!/bin/bash" > ~/.vnc/xstartup
+echo "xrdb $HOME/.Xresources" >> ~/.vnc/xstartup
+echo "startxfce4 &" >> ~/.vnc/xstartup
+chmod +x ~/.vnc/xstartup
+
+# 4. Start the VNC Server
+# This creates the desktop session on localhost:5901
+vncserver :1 -geometry 1280x800 -depth 24
+
+# 5. Install and Start noVNC (The Web Viewer)
+# This creates a "tunnel" so you can view the desktop in your browser.
+if [ ! -d "noVNC" ]; then
+    git clone https://github.com/novnc/noVNC.git
+fi
+
+echo "------------------------------------------------------------------"
+echo "✅ SUCCESS! GUI is running."
+echo "👉 Click the 'Web Preview' button (top right eye icon)."
+echo "👉 Select 'Change port' and enter: 6080"
+echo "👉 The password is: password"
+echo "------------------------------------------------------------------"
+
+# Start the web proxy
+./noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 6080
