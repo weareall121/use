@@ -1,5 +1,5 @@
 git config --global user.name "username"
-git config --global user.mail "yourmal@gmail.com"
+git config --global user.email "yourmal@gmail.com"
 
 
 gh auth login
